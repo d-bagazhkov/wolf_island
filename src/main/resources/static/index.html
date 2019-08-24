@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Wolf island</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="application/javascript">
+    // configuration
+    var APP_CONFIG = {
+      ISLAND_CONFIG: {
+        COUNT_HORIZONTAL_CEIL: 26,
+        COUNT_VERTICAL_CEIL: 12,
+        SIZE_CEIL: 50, // px
+        ISLAND_SELECTOR: "#root"
+      },
+      CONTROL_CONFIG: {
+        CONTROL_SELECTOR: ".control-root"
+      }
+    };
+  </script>
+  <script defer type="application/javascript" src="models.js"></script>
+  <script defer type="application/javascript" src="main.js"></script>
+</head>
+<body>
+<div class="control-root"></div>
+<div id="root"></div>
+</body>
+</html>
