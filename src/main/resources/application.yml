@@ -1,0 +1,15 @@
+island:
+  countHorizontalCeil: 30
+  countVerticalCeil: 15
+  sizeCeil: 40
+
+server:
+  port: 8008
+
+spring:
+  thymeleaf:
+    suffix: .html
+    prefix: classpath:/static/
+    encoding: UTF-8
+    servlet:
+      content-type: text/html

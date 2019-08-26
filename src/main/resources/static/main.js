@@ -1,15 +1,17 @@
 'use strict';
 
-// let root = document.querySelector(APP_CONFIG.ISLAND_CONFIG.ISLAND_SELECTOR);
-// root = new RootTable({element: root, config: APP_CONFIG.ISLAND_CONFIG});
+let rootElement = document.querySelector(APP_CONFIG.ISLAND_SELECTOR);
 const root = new RootTable({
-  element: document.querySelector(APP_CONFIG.ISLAND_CONFIG.ISLAND_SELECTOR),
-  config: APP_CONFIG.ISLAND_CONFIG
+  element: rootElement,
+  config: {
+    COUNT_VERTICAL_CEIL: rootElement.dataset.countCeilY,
+    COUNT_HORIZONTAL_CEIL: rootElement.dataset.countCeilX,
+    SIZE_CEIL: rootElement.dataset.sizeCeil
+  }
 });
 
 let control = new ControlGroup({
-  element: document.querySelector(APP_CONFIG.CONTROL_CONFIG.CONTROL_SELECTOR),
-  config: APP_CONFIG.CONTROL_CONFIG
+  element: document.querySelector(APP_CONFIG.CONTROL_SELECTOR)
 });
 
 root.getCeil(1, 1).set("H");
