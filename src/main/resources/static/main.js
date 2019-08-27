@@ -26,8 +26,32 @@ root.getCeil(5, 3).set("r");
 root.getCeil(6, 3).set("l");
 root.getCeil(7, 3).set("d");
 
+const getPositions = () => {
+  let pos = root.getAll().map(e => {
+    return {
+      position: {
+        x: e.x,
+        y: e.y
+      },
+      name: e.name
+    }
+  });
+  console.log("send", pos);
+  return pos;
+};
+
 let triggerId;
-const trigger = (q) => console.log(q);
+const trigger = (q) => {
+  fetch("/handle", {
+    method: 'POST',
+    body: JSON.stringify(getPositions()),
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+  }).then(response => response.json())
+      .then(j => console.log("receive", j) || j)
+      .then(j => root.saveAll(j));
+};
 control.addResetCallback(event => {
 
 });

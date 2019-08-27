@@ -1,6 +1,7 @@
 'use strict';
 
 var Ceil = function ({coordinateX, config}) {
+  this.value = null;
   const createCeil = function (horizontal_index) {
     let ceil = document.createElement("div");
     ceil.style.width = config.SIZE_CEIL + 'px';
@@ -12,7 +13,7 @@ var Ceil = function ({coordinateX, config}) {
   this.element.dataset.index = coordinateX;
   this.index = coordinateX;
   this.toString = this.element.toString;
-  this.set = (text) => this.element.innerHTML = text;
+  this.set = (text) => {this.element.innerHTML = text; this.value = text};
   this.clear = () => this.set("");
 
 };
@@ -60,6 +61,23 @@ var RootTable = function ({element, config}) {
     let row = new Row({coordinateY: y, config});
     this.add(row);
     return row;
+  };
+  this.getAll = () => {
+    let result = [];
+    for (let y = 0; y < config.COUNT_VERTICAL_CEIL; y++) {
+      let row = this.getRow(y);
+      for (let x = 0; x < config.COUNT_HORIZONTAL_CEIL; x++) {
+        result.push({
+          x, y, name: row.get(x).value
+        });
+      }
+    }
+    return result;
+  };
+  this.saveAll = arr => {
+    for (let e of arr) {
+      this.getRow(e.position.y).get(e.position.x).set(e.name || "")
+    }
   };
   for (let y = 0; y < config.COUNT_VERTICAL_CEIL; y++) {
     let row = this.addRow(y);
@@ -123,6 +141,6 @@ var ControlGroup = function ({element, config}) {
 
 var Entity = (e) => {
   this.name = e.name;
-  this.positionX = e.x;
-  this.positionY = e.y;
+  this.x = e.position.x;
+  this.y = e.position.y;
 };
