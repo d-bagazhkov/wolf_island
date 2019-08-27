@@ -5,12 +5,14 @@ import cody.wolf.island.wolfisland.model.Entity;
 import cody.wolf.island.wolfisland.model.Position;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
 @Service
@@ -18,31 +20,16 @@ import java.util.stream.IntStream;
 public class StepService {
 
     private final IslandConfig islandConfig;
+    @Value("${entity.view.wolf}")
+    private String wolf;
+    @Value("${entity.view.rabbit}")
+    private String rabbit;
 
     public List<Entity> handle(List<Entity> positions) {
-//        positions.stream()
-//                .filter(p -> p.getEntityName() != null)
-//                .map(Objects::toString)
-//                .forEach(log::info);
-        get(1, 5, positions).setEntityName("\uD83D\uDE0E");
-        get(2, 5, positions).setEntityName("R");
-        get(3, 5, positions).setEntityName("e");
-        get(4, 5, positions).setEntityName("s");
-        get(5, 5, positions).setEntityName("p");
-        get(6, 5, positions).setEntityName("o");
-        get(7, 5, positions).setEntityName("n");
-        get(8, 5, positions).setEntityName("s");
-        get(9, 5, positions).setEntityName("e");//Response
-        get(3, 6, positions).setEntityName("f");
-        get(4, 6, positions).setEntityName("r");
-        get(5, 6, positions).setEntityName("o");
-        get(6, 6, positions).setEntityName("m");//from
-        get(2, 7, positions).setEntityName("s");
-        get(3, 7, positions).setEntityName("e");
-        get(4, 7, positions).setEntityName("r");
-        get(5, 7, positions).setEntityName("v");
-        get(6, 7, positions).setEntityName("e");
-        get(7, 7, positions).setEntityName("r");//server
+        if (positions.stream().noneMatch(e -> hasText(e.getEntityName()))) {
+            return reset();
+        }
+
         return positions;
     }
 
@@ -54,7 +41,7 @@ public class StepService {
     }
 
     public List<Entity> reset() {
-        return IntStream.range(0, islandConfig.getCountHorizontalCeil()).boxed()
+        List<Entity> entities = IntStream.range(0, islandConfig.getCountHorizontalCeil()).boxed()
                 .flatMap(x -> IntStream.range(0, islandConfig.getCountVerticalCeil()).boxed().map(y -> {
                     Entity entity = new Entity();
                     Position position = new Position();
@@ -64,5 +51,29 @@ public class StepService {
                     return entity;
                 }))
                 .collect(Collectors.toList());
+        Set<Position> existPosition = new HashSet<>();
+        IntStream.range(0, islandConfig.getStartCountWolf()).boxed().forEach(i -> {
+            Position position;
+            do {
+                position = getRandomPosition();
+            } while (!existPosition.add(position));
+            get(position.getX(), position.getY(), entities).setEntityName(wolf);
+        });
+        IntStream.range(0, islandConfig.getStartCountRabbit()).boxed().forEach(i -> {
+            Position position;
+            do {
+                position = getRandomPosition();
+            } while (!existPosition.add(position));
+            get(position.getX(), position.getY(), entities).setEntityName(rabbit);
+        });
+        return entities;
+    }
+
+    private Position getRandomPosition() {
+        Position position = new Position();
+        Random random = new Random();
+        position.setY(random.nextInt(islandConfig.getCountVerticalCeil()));
+        position.setX(random.nextInt(islandConfig.getCountHorizontalCeil()));
+        return position;
     }
 }

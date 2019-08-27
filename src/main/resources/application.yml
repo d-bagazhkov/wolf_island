@@ -2,6 +2,10 @@ island:
   countHorizontalCeil: 30
   countVerticalCeil: 15
   sizeCeil: 40
+  start:
+    count:
+      wolf: 5
+      rabbit: 5
 
 server:
   port: 8008
@@ -13,3 +17,8 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
+
+entity:
+  view:
+    wolf: 🐺
+    rabbit: 🐰
