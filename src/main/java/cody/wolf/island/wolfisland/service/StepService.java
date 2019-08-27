@@ -1,15 +1,23 @@
 package cody.wolf.island.wolfisland.service;
 
+import cody.wolf.island.wolfisland.config.IslandConfig;
 import cody.wolf.island.wolfisland.model.Entity;
+import cody.wolf.island.wolfisland.model.Position;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class StepService {
+
+    private final IslandConfig islandConfig;
 
     public List<Entity> handle(List<Entity> positions) {
 //        positions.stream()
@@ -45,4 +53,16 @@ public class StepService {
                 .orElse(null);
     }
 
+    public List<Entity> reset() {
+        return IntStream.range(0, islandConfig.getCountHorizontalCeil()).boxed()
+                .flatMap(x -> IntStream.range(0, islandConfig.getCountVerticalCeil()).boxed().map(y -> {
+                    Entity entity = new Entity();
+                    Position position = new Position();
+                    position.setX(x);
+                    position.setY(y);
+                    entity.setPosition(position);
+                    return entity;
+                }))
+                .collect(Collectors.toList());
+    }
 }

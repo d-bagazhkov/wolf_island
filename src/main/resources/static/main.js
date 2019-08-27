@@ -36,7 +36,6 @@ const getPositions = () => {
       name: e.name
     }
   });
-  console.log("send", pos);
   return pos;
 };
 
@@ -49,11 +48,12 @@ const trigger = (q) => {
       'Content-Type': 'application/json'
     }),
   }).then(response => response.json())
-      .then(j => console.log("receive", j) || j)
       .then(j => root.saveAll(j));
 };
 control.addResetCallback(event => {
-
+  fetch("/reset")
+      .then(response => response.json())
+      .then(response => root.saveAll(response))
 });
 control.addStartCallback(event => {
   triggerId = setInterval(() => trigger(event), +control.startButton.dataset.frequency);
