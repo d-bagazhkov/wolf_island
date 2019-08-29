@@ -10,6 +10,7 @@ const Entity = function (json) {
   this.y = json.y;
   this.value = json.value;
 };
+Entity.of = (arrObj) => arrObj.map(e => new Entity({x: e.position.x, y: e.position.y, value: e.value}));
 
 const Ceil = function (entity) {
   this.element = document.createElement("div");

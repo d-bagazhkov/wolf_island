@@ -15,8 +15,6 @@ public class WebController {
     @RequestMapping(value = {"/", "home", "index"})
     public String index(Model model) {
         model.addAttribute("sizeCeil", islandConfig.getSizeCeil());
-        model.addAttribute("countVerticalCeil", islandConfig.getCountVerticalCeil());
-        model.addAttribute("countHorizontalCeil", islandConfig.getCountHorizontalCeil());
         return "index";
     }
 }

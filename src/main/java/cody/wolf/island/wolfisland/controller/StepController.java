@@ -15,8 +15,8 @@ public class StepController {
 
     @CrossOrigin
     @PostMapping("/handle")
-    public List<Entity> handleStep(@RequestBody List<Entity> positions) {
-        return stepService.handle(positions);
+    public List<Entity> handleStep() {
+        return stepService.handle();
     }
 
     @CrossOrigin

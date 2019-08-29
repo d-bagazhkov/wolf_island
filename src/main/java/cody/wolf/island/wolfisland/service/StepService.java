@@ -25,8 +25,10 @@ public class StepService {
     private String wolf;
     @Value("${entity.view.rabbit}")
     private String rabbit;
+    private List<Entity> positions;
 
-    public List<Entity> handle(List<Entity> positions) {
+    public List<Entity> handle() {
+        if (positions == null) return reset();
         if (positions.stream().noneMatch(e -> hasText(e.getEntityName()))) {
             return reset();
         }
@@ -132,7 +134,7 @@ public class StepService {
     }
 
     public List<Entity> reset() {
-        List<Entity> entities = IntStream.range(0, islandConfig.getCountHorizontalCeil()).boxed()
+        positions = IntStream.range(0, islandConfig.getCountHorizontalCeil()).boxed()
                 .flatMap(x -> IntStream.range(0, islandConfig.getCountVerticalCeil()).boxed().map(y -> {
                     Entity entity = new Entity();
                     Position position = new Position();
@@ -148,16 +150,16 @@ public class StepService {
             do {
                 position = getRandomPosition();
             } while (!existPosition.add(position));
-            get(position.getX(), position.getY(), entities).setEntityName(wolf);
+            get(position.getX(), position.getY(), positions).setEntityName(wolf);
         });
         IntStream.range(0, islandConfig.getStartCountRabbit()).boxed().forEach(i -> {
             Position position;
             do {
                 position = getRandomPosition();
             } while (!existPosition.add(position));
-            get(position.getX(), position.getY(), entities).setEntityName(rabbit);
+            get(position.getX(), position.getY(), positions).setEntityName(rabbit);
         });
-        return entities;
+        return positions;
     }
 
     private Position getRandomPosition() {

@@ -1,28 +1,18 @@
 'use strict';
 
-//todo здесь есть код)
-
-function getRandomInt(min, max) {                           //
-  return Math.floor(Math.random() * (max - min)) + min;  // заглушка
-}                                                           //
-
 const rootTable = new RootTable(elementRootTable);
 
-const receiveQuery = () => {
-  const TEST_JSON = [];             // заглушка
-  for (let i = 0; i < 25; i++) {    // заглушка
-    for (let j = 0; j < 10; j++) {  // заглушка
-      TEST_JSON.push({              // заглушка
-        x: i, y: j, value: "X"      // заглушка
-      })                            // заглушка
-    }                               // заглушка
-  }                                 // заглушка
-  return TEST_JSON;                 // заглушка
+const request = () => {
+  fetch("/handle", {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+  }).then(response => response.json())
+      .then(j => rootTable.render(Entity.of(j)));
 };
 
-
 let intervalId;
-
 switchToSocket = () => {
   console.log("Смена режима работы программы на Socket")
 };
@@ -34,7 +24,7 @@ switchToPolling = () => {
 startQuerying = (value) => {
   console.log("Запросы включенны с частотой", value, "ms");
   clearInterval(intervalId);
-  intervalId = setInterval(resetApp, value);//загушка
+  intervalId = setInterval(request, value);
 };
 
 stopQuerying = () => {
@@ -44,12 +34,9 @@ stopQuerying = () => {
 
 resetApp = () => {
   console.log("Reset app");
-  //заглушка
-  let arr = receiveQuery();
-  for (let i = 0; i < 10; i++) {
-    arr[getRandomInt(0, arr.length)].value = "0";
-  }
-  rootTable.render(arr);
+  fetch("/reset")
+      .then(response => response.json())
+      .then(response => rootTable.render(Entity.of(response)))
 };
 
-rootTable.render(receiveQuery());
+resetApp();

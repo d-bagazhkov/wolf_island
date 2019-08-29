@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Entity {
-    @JsonProperty("name")
+    @JsonProperty("value")
     private String entityName;
     private Position position;
 }
