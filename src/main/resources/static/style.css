@@ -3,59 +3,173 @@
   background: #2a2826;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-.grid-root {
+body {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 100px 100px 100px;
+}
+
+#control-root * {
+  background-color: #9C9C9C;
+}
+
+#control-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 280px;
+  background-color: #9C9C9C;
+  width: 250px;
+}
+
+.info {
+  display: flex;
+  font-size: 1.3rem;
+  height: 1.3rem;
+}
+
+.value {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  width: 80px;
+}
+
+.alarm {
+  color: crimson;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  padding: 8px;
+}
+
+#control-root section {
+  display: flex;
+  width: 100%;
+  padding: 1.5rem;
+}
+
+#control-root section.range-input {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#control-root section.range-input input[type=range] {
+  width: 145px;
+}
+
+#control-root section.reset-button {
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+#control-root section.reset-button button {
+  padding: 10px 23px;
+  width: 140px;
+  font-size: 1.2rem;
+}
+
+#control-root section.toggle-switch {
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+#control-root section.toggle-switch div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+#table-root {
+  display: flex;
   flex-direction: column;
 }
 
-.ceil {
+#table-root .row {
+  display: flex;
+  flex-direction: row;
+}
+
+#table-root .row .ceil {
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid black;
   font-size: 1.5rem;
+  background-color: #9C9C9C;
+  color: black;
   overflow: hidden;
-  background-color: #9C9C9C;
-  color: #2a2826;
-  box-sizing: border-box;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
 }
 
-.control-root {
-  margin: 10px auto;
-  width: 900px;
-  color: #9C9C9C;
-  display: flex;
-  justify-content: space-around;
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.control-root section {
-  display: flex;
-  flex-direction: column;
-  border: 4px double white;
-  box-sizing: border-box;
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc !important;;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
-.control-root section.radio {
-  width: 100px;
-  padding: 8px 8px 8px 15px;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white !important;;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
-.control-root section.button button {
-  width: 100px;
-  display: block;
-  font-size: 2rem;
-  height: 100%;
-  color: #2a2826;
-  background-color: #9C9C9C;
+input:checked + .slider {
+  background-color: #2a2826 !important;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2a2826;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

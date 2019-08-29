@@ -1,73 +1,55 @@
 'use strict';
 
-let rootElement = document.querySelector(APP_CONFIG.ISLAND_SELECTOR);
-const root = new RootTable({
-  element: rootElement,
-  config: {
-    COUNT_VERTICAL_CEIL: rootElement.dataset.countCeilY,
-    COUNT_HORIZONTAL_CEIL: rootElement.dataset.countCeilX,
-    SIZE_CEIL: rootElement.dataset.sizeCeil
-  }
-});
+//todo здесь есть код)
 
-let control = new ControlGroup({
-  element: document.querySelector(APP_CONFIG.CONTROL_SELECTOR)
-});
+function getRandomInt(min, max) {                           //
+  return Math.floor(Math.random() * (max - min)) + min;  // заглушка
+}                                                           //
 
-root.getCeil(1, 1).set("H");
-root.getCeil(2, 1).set("e");
-root.getCeil(3, 1).set("l");
-root.getCeil(4, 1).set("l");
-root.getCeil(5, 1).set("o");
+const rootTable = new RootTable(elementRootTable);
 
-root.getCeil(3, 3).set("W");
-root.getCeil(4, 3).set("o");
-root.getCeil(5, 3).set("r");
-root.getCeil(6, 3).set("l");
-root.getCeil(7, 3).set("d");
-
-const getPositions = () => {
-  let pos = root.getAll().map(e => {
-    return {
-      position: {
-        x: e.x,
-        y: e.y
-      },
-      name: e.name
-    }
-  });
-  return pos;
+const receiveQuery = () => {
+  const TEST_JSON = [];             // заглушка
+  for (let i = 0; i < 25; i++) {    // заглушка
+    for (let j = 0; j < 10; j++) {  // заглушка
+      TEST_JSON.push({              // заглушка
+        x: i, y: j, value: "X"      // заглушка
+      })                            // заглушка
+    }                               // заглушка
+  }                                 // заглушка
+  return TEST_JSON;                 // заглушка
 };
 
-let triggerId;
-const trigger = (q) => {
-  fetch("/handle", {
-    method: 'POST',
-    body: JSON.stringify(getPositions()),
-    headers: new Headers({
-      'Content-Type': 'application/json'
-    }),
-  }).then(response => response.json())
-      .then(j => root.saveAll(j));
-};
-control.addResetCallback(event => {
-  fetch("/reset")
-      .then(response => response.json())
-      .then(response => root.saveAll(response))
-});
-control.addStartCallback(event => {
-  triggerId = setInterval(() => trigger(event), +control.startButton.dataset.frequency);
-});
-control.addRadioCallback(event => {
-  if (event.target.value === 'Off') {
-    clearInterval(triggerId);
-    control.startButton.disabled = true;
-    control.resetButton.disabled = false;
-  } else {
-    control.resetButton.disabled = true;
-    control.startButton.disabled = false;
-  }
-  control.startButton.dataset.frequency = event.target.value;
-});
 
-control.build();
+let intervalId;
+
+switchToSocket = () => {
+  console.log("Смена режима работы программы на Socket")
+};
+
+switchToPolling = () => {
+  console.log("Смена режима работы программы на Socket")
+};
+
+startQuerying = (value) => {
+  console.log("Запросы включенны с частотой", value, "ms");
+  clearInterval(intervalId);
+  intervalId = setInterval(resetApp, value);//загушка
+};
+
+stopQuerying = () => {
+  console.log("Запросы отключенны");
+  clearInterval(intervalId);
+};
+
+resetApp = () => {
+  console.log("Reset app");
+  //заглушка
+  let arr = receiveQuery();
+  for (let i = 0; i < 10; i++) {
+    arr[getRandomInt(0, arr.length)].value = "0";
+  }
+  rootTable.render(arr);
+};
+
+rootTable.render(receiveQuery());
