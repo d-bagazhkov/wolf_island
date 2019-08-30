@@ -3,7 +3,10 @@ package cody.wolf.island.wolfisland.controller;
 import cody.wolf.island.wolfisland.model.Entity;
 import cody.wolf.island.wolfisland.service.StepService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
