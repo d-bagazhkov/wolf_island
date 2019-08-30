@@ -1,8 +1,8 @@
-package cody.wolf.island.wolfisland.service;
+package cody.wolf.island.service;
 
-import cody.wolf.island.wolfisland.config.IslandConfig;
-import cody.wolf.island.wolfisland.model.Entity;
-import cody.wolf.island.wolfisland.model.Position;
+import cody.wolf.island.config.IslandConfig;
+import cody.wolf.island.model.Entity;
+import cody.wolf.island.model.Position;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

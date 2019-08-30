@@ -1,4 +1,4 @@
-package cody.wolf.island.wolfisland.config;
+package cody.wolf.island.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

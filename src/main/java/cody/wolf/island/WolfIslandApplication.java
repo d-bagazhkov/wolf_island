@@ -1,4 +1,4 @@
-package cody.wolf.island.wolfisland;
+package cody.wolf.island;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

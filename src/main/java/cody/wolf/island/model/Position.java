@@ -1,4 +1,4 @@
-package cody.wolf.island.wolfisland.model;
+package cody.wolf.island.model;
 
 import lombok.Data;
 

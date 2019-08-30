@@ -1,7 +1,7 @@
-package cody.wolf.island.wolfisland.controller;
+package cody.wolf.island.controller;
 
-import cody.wolf.island.wolfisland.model.Entity;
-import cody.wolf.island.wolfisland.service.StepService;
+import cody.wolf.island.model.Entity;
+import cody.wolf.island.service.StepService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
