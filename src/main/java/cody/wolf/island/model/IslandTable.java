@@ -1,10 +1,17 @@
 package cody.wolf.island.model;
 
+import cody.wolf.island.model.things.EmptyThing;
 import cody.wolf.island.model.things.enums.ContentValue;
 import cody.wolf.island.utils.IslandTableSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.function.Consumer;
 
 
+@Slf4j
+@ToString(of = {"table"})
 @JsonSerialize(using = IslandTableSerialize.class)
 public class IslandTable {
 
@@ -40,20 +47,37 @@ public class IslandTable {
         return table[x][y];
     }
 
-    public boolean move(Position from, Position to) {
-        return move(from.getX(), from.getY(), to.getX(), to.getY());
+
+    public boolean move(Ceil from, Position to) {
+        return move(from.getPosition().getX(), from.getPosition().getY(), to.getX(), to.getY());
     }
 
     private boolean move(int fromX, int fromY, int toX, int toY) {
-        if (!isEmpty(toX, toY)) return false;
+        if (!isEmpty(toX, toY)) {
+            log.debug("Ceil on position x={}, y={} is already taken", toX, toY);
+            return false;
+        }
+
+        Ceil from = get(fromX, fromY);
+        if (from.isDocked()) return false;
 
         Ceil to = get(toX, toY);
-        Ceil from = get(fromX, fromY);
+        to.setThing(from.getThing());
+        from.setThing(new EmptyThing());
 
+        log.debug("Move from position x={} y={} to x={} y={}", fromX, fromY, toX, toY);
         return true;
     }
 
     private boolean isEmpty(int x, int y) {
         return get(x, y).getThing().getValue().equals(ContentValue.EMPTY);
+    }
+
+    public void forEach(Consumer<Ceil> consumer) {
+        for (int x = 0; x < horizontalSize; x++) {
+            for (int y = 0; y < verticalSize; y++) {
+                consumer.accept(get(x, y));
+            }
+        }
     }
 }

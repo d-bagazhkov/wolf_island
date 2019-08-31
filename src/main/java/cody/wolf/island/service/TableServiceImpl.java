@@ -24,24 +24,46 @@ public class TableServiceImpl implements TableService {
 
     public TableServiceImpl(IslandConfig islandConfig) {
         this.islandConfig = islandConfig;
-        table = new IslandTable(islandConfig.getCountHorizontalCeil(), islandConfig.getCountVerticalCeil());
+        reset();
     }
 
     public IslandTable handle() {
-        for (int x = 0; x < islandConfig.getCountHorizontalCeil(); x++) {
-            for (int y = 0; y < islandConfig.getCountVerticalCeil(); y++) {
-                Ceil ceil = table.get(x, y);
-                Thing thing = ceil.getThing();
-                if (thing.isMovable()) {
-                    //todo move
-                }
-            }
-        }
+        table.forEach(ceil -> {
+            Thing thing = ceil.getThing();
+            if (thing.isMovable())
+                while (true)
+                    if (table.move(ceil, defineRandomPositionAround(ceil.getPosition()))) {
+                        ceil.dock();
+                        break;
+                    }
+        });
+        table.forEach(Ceil::unDock);
         return table;
+    }
+
+    private Position defineRandomPositionAround(Position position) {
+        Random random = new Random();
+        Position positionNew;
+        while (true) {
+            int x = random.nextInt(3) - 1;
+            int y = random.nextInt(3) - 1;
+            if (x == 0 && y == 0) continue;
+            int xNew = position.getX() + x;
+            int yNew = position.getY() + y;
+            if (xNew < 0
+                    || yNew < 0
+                    || xNew >= islandConfig.getCountHorizontalCeil()
+                    || yNew >= islandConfig.getCountVerticalCeil())
+                continue;
+            positionNew = new Position(xNew, yNew);
+            break;
+        }
+        return positionNew;
     }
 
 
     public IslandTable reset() {
+        log.info("Create new island");
         table = new IslandTable(islandConfig.getCountHorizontalCeil(), islandConfig.getCountVerticalCeil());
 
         List<Position> isset = new ArrayList<>();
@@ -53,7 +75,8 @@ public class TableServiceImpl implements TableService {
             randomFill(isset, Rabbit.class);
         }
 
-         return table;
+        log.debug("New island: {}", table);
+        return table;
     }
 
     private void randomFill(List<Position> isset, Class<? extends Thing> thingClass) {
@@ -63,6 +86,7 @@ public class TableServiceImpl implements TableService {
             if (isset.stream().anyMatch(p -> p.equals(position))) continue;
             isset.add(position);
             try {
+                log.info("Set {} on position x={}, y={}", thingClass.getSimpleName(), position.getX(), position.getY());
                 table.get(position).setThing(thingClass.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
                 log.error("Can't create new thing instance", e);

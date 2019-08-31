@@ -20,7 +20,7 @@ public class IslandTableSerialize extends StdSerializer<IslandTable> {
 
         for (int i = 0; i < table.getHorizontalSize(); i++) {
             for (int j = 0; j < table.getVerticalSize(); j++) {
-                jsonGenerator.writeObject(table.get(j, i));
+                jsonGenerator.writeObject(table.get(i, j));
             }
         }
 
