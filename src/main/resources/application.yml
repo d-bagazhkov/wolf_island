@@ -4,8 +4,8 @@ island:
   sizeCeil: 50
   start:
     count:
-      wolf: 5
-      rabbit: 5
+      wolf: 3
+      rabbit: 3
 
 server:
   port: 8008
@@ -17,8 +17,3 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
-
-entity:
-  view:
-    wolf: 🐺
-    rabbit: 🐰
