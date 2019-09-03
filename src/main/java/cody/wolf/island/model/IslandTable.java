@@ -59,10 +59,9 @@ public class IslandTable {
         }
 
         Ceil from = get(fromX, fromY);
-        if (from.isDocked()) return false;
-
         Ceil to = get(toX, toY);
         to.setThing(from.getThing());
+        to.dock();
         from.setThing(new EmptyThing());
 
         log.debug("Move from position x={} y={} to x={} y={}", fromX, fromY, toX, toY);

@@ -30,12 +30,8 @@ public class TableServiceImpl implements TableService {
     public IslandTable handle() {
         table.forEach(ceil -> {
             Thing thing = ceil.getThing();
-            if (thing.isMovable())
-                for (;;)
-                    if (table.move(ceil, defineRandomPositionAround(ceil.getPosition()))) {
-                        ceil.dock();
-                        break;
-                    }
+            if (thing.isMovable() && !ceil.isDocked())
+                while (!table.move(ceil, defineRandomPositionAround(ceil.getPosition())));
         });
         table.forEach(Ceil::unDock);
         return table;
