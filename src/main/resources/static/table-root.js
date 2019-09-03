@@ -28,7 +28,6 @@ const Row = function (entity) {
   this.listCeil = [];
   this.element = document.createElement("div");
   this.element.dataset.index = entity.y;
-  this.entity = entity;
   this.element.style.height = props.ceilSize + 'px';
   this.element.classList.add("row");
   this.add = ceil => {

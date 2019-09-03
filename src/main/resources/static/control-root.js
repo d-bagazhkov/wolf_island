@@ -27,15 +27,22 @@ let resetApp = () => {};
 rangeInput.addEventListener("input", function (event) {
   let value = +event.target.value;
   if (value) {
-    startQuerying(value);
     value = value / 1000 + " sec";
   } else {
     buttonAlarm.innerHTML = '';
     toggleAlarm.innerHTML = '';
-    stopQuerying();
     value = "Off";
   }
   rangeValue.innerHTML = value;
+});
+
+rangeInput.addEventListener("change", function (event) {
+  let value = +event.target.value;
+  if (value) {
+    startQuerying(value);
+  } else {
+    stopQuerying();
+  }
 });
 
 resetButton.addEventListener("click", function () {

@@ -2,14 +2,14 @@ package cody.wolf.island.controller;
 
 import cody.wolf.island.model.IslandTable;
 import cody.wolf.island.service.TableService;
-import lombok.Data;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.codec.ServerSentEvent;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.Date;
 
 @Slf4j
@@ -18,6 +18,7 @@ import java.util.Date;
 public class MoveController {
 
     private final TableService tableService;
+    private final ObjectMapper objectMapper;
 
     @CrossOrigin
     @PostMapping("/handle")
@@ -26,7 +27,7 @@ public class MoveController {
         try {
             log.debug("Start handle move");
             return tableService.handle();
-        }finally {
+        } finally {
             log.debug("Resolve all move. Time: {}ms", new Date().getTime() - start);
         }
     }
@@ -35,6 +36,16 @@ public class MoveController {
     @GetMapping("/reset")
     public IslandTable reset() {
         return tableService.reset();
+    }
+
+    @CrossOrigin
+    @GetMapping("/socket/handle/{interval}")
+    public Flux<ServerSentEvent<IslandTable>> socket(@PathVariable("interval") Integer interval) {
+        return Flux.interval(Duration.ofMillis(interval))
+                .map(sequence -> ServerSentEvent.<IslandTable>builder()
+                        .id(String.valueOf(sequence))
+                        .data(handleStep())
+                        .build());
     }
 
 }

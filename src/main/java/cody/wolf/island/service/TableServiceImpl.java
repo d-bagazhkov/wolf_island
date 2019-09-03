@@ -31,7 +31,7 @@ public class TableServiceImpl implements TableService {
         table.forEach(ceil -> {
             Thing thing = ceil.getThing();
             if (thing.isMovable())
-                while (true)
+                for (;;)
                     if (table.move(ceil, defineRandomPositionAround(ceil.getPosition()))) {
                         ceil.dock();
                         break;

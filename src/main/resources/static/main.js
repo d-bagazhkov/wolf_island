@@ -12,7 +12,6 @@ const request = () => {
       .then(j => rootTable.render(Entity.of(j)));
 };
 
-let intervalId;
 switchToSocket = () => {
   console.log("Смена режима работы программы на Socket")
 };
@@ -21,15 +20,31 @@ switchToPolling = () => {
   console.log("Смена режима работы программы на Socket")
 };
 
+let intervalId = null;
+let eventSource = null;
 startQuerying = (value) => {
   console.log("Запросы включенны с частотой", value, "ms");
-  clearInterval(intervalId);
-  intervalId = setInterval(request, value);
+  if (!toggleCheckbox.checked) {
+    clearInterval(intervalId);
+    intervalId = setInterval(request, value);
+  } else {
+    if (eventSource) {
+      eventSource.close();
+    }
+    eventSource = new EventSource("/socket/handle/" + value);
+    eventSource.onmessage = function(event) {
+      rootTable.render(Entity.of(JSON.parse(event.data)))
+    };
+  }
 };
 
 stopQuerying = () => {
   console.log("Запросы отключенны");
-  clearInterval(intervalId);
+  if (intervalId !== null)
+    clearInterval(intervalId);
+  if (eventSource !== null) {
+    eventSource.close();
+  }
 };
 
 resetApp = () => {
