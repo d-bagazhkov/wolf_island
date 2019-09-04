@@ -4,8 +4,8 @@ island:
   sizeCeil: 50
   start:
     count:
-      wolf: 1
-      rabbit: 0
+      wolf: 2
+      rabbit: 4
 
 server:
   port: 8008

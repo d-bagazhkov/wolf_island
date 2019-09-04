@@ -22,7 +22,6 @@ switchToPolling = () => {
 
 let intervalId = null;
 let eventSource = null;
-let intervalStatsId = null;
 let eventStatsSource = null;
 startQuerying = (value) => {
   console.log("Запросы включенны с частотой", value, "ms");
@@ -30,38 +29,30 @@ startQuerying = (value) => {
     if (intervalId !== null) {
       clearInterval(intervalId);//stop interval request step
     }
-    if (intervalStatsId !== null) {
-      clearInterval(intervalStatsId);
-    }
     intervalId = setInterval(request, value);
-    intervalStatsId = setInterval(() => fetch("/stats")
-        .then(response => response.json())
-        .then(data => updateStats(data)), value);
   } else {
     if (eventSource !== null) {
       eventSource.close();
     }
-    if (eventStatsSource !== null) {
-      eventStatsSource.close();
-    }
     eventSource = new EventSource("/socket/handle/" + value);
-    eventStatsSource = new EventSource("/socket/stats/" + value);
-    eventStatsSource.onmessage = function (event) {
-      updateStats(JSON.parse(event.data));
-    };
     eventSource.onmessage = function (event) {
       rootTable.render(Entity.of(JSON.parse(event.data)))
     };
   }
+
+  if (eventStatsSource !== null) {
+    eventStatsSource.close();
+  }
+  eventStatsSource = new EventSource("/socket/stats/" + value);
+  eventStatsSource.onmessage = function (event) {
+    updateStats(JSON.parse(event.data));
+  };
 };
 
 stopQuerying = () => {
   console.log("Запросы отключенны");
   if (intervalId !== null) {
     clearInterval(intervalId); //stop interval request step
-  }
-  if (intervalStatsId !== null) {
-    clearInterval(intervalStatsId);
   }
   if (eventSource !== null) {
     eventSource.close();

@@ -84,4 +84,11 @@ public class StatsServiceImpl implements StatsService {
     public void decSteps(int count) {
         countSteps -= count;
     }
+
+    @Override
+    public void clear() {
+        countSteps = 0;
+        countWolf = 0;
+        countRabbit = 0;
+    }
 }
