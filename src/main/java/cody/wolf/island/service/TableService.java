@@ -1,11 +1,11 @@
 package cody.wolf.island.service;
 
-import cody.wolf.island.model.IslandTable;
+import cody.wolf.island.model.Ceil;
+import cody.wolf.island.model.Position;
 
 public interface TableService {
 
-    IslandTable handle();
-
-    IslandTable reset();
+    Ceil get(int x, int y);
+    Ceil get(Position position);
 
 }

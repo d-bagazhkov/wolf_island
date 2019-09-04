@@ -1,7 +1,7 @@
 package cody.wolf.island.controller;
 
-import cody.wolf.island.model.IslandTable;
-import cody.wolf.island.service.TableService;
+import cody.wolf.island.service.impl.TableServiceImpl;
+import cody.wolf.island.service.GameService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,16 +17,16 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class MoveController {
 
-    private final TableService tableService;
+    private final GameService gameService;
     private final ObjectMapper objectMapper;
 
     @CrossOrigin
     @PostMapping("/handle")
-    public IslandTable handleStep() {
+    public TableServiceImpl handleStep() {
         long start = new Date().getTime();
         try {
             log.debug("Start handle move");
-            return tableService.handle();
+            return gameService.handle();
         } finally {
             log.debug("Resolve all move. Time: {}ms", new Date().getTime() - start);
         }
@@ -34,15 +34,15 @@ public class MoveController {
 
     @CrossOrigin
     @GetMapping("/reset")
-    public IslandTable reset() {
-        return tableService.reset();
+    public TableServiceImpl reset() {
+        return gameService.reset();
     }
 
     @CrossOrigin
     @GetMapping("/socket/handle/{interval}")
-    public Flux<ServerSentEvent<IslandTable>> socket(@PathVariable("interval") Integer interval) {
+    public Flux<ServerSentEvent<TableServiceImpl>> socket(@PathVariable("interval") Integer interval) {
         return Flux.interval(Duration.ofMillis(interval))
-                .map(sequence -> ServerSentEvent.<IslandTable>builder()
+                .map(sequence -> ServerSentEvent.<TableServiceImpl>builder()
                         .id(String.valueOf(sequence))
                         .data(handleStep())
                         .build());
