@@ -10,12 +10,10 @@ public class CeilImpl implements Ceil {
 
     private Thing thing;
     private Position position;
-    private boolean isDocked;
 
     public CeilImpl(Position position) {
         this.thing = new EmptyThing();
         this.position = position;
-        this.isDocked = false;
     }
 
     @Override

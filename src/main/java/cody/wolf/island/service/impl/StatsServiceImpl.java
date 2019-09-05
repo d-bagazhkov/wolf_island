@@ -1,7 +1,10 @@
 package cody.wolf.island.service.impl;
 
+import cody.wolf.island.model.things.enums.ContentValue;
 import cody.wolf.island.service.StatsService;
 import org.springframework.stereotype.Service;
+
+import java.util.Random;
 
 @Service
 public class StatsServiceImpl implements StatsService {
@@ -73,6 +76,22 @@ public class StatsServiceImpl implements StatsService {
     @Override
     public void decRabbit(int count) {
         countRabbit -= count;
+    }
+
+    @Override
+    public void incInstance(ContentValue contentValue) {
+        if (contentValue.equals(ContentValue.WOLF))
+            incWolf();
+        else if (contentValue.equals(ContentValue.RABBIT))
+            incRabbit();
+    }
+
+    @Override
+    public void decInstance(ContentValue contentValue) {
+        if (contentValue.equals(ContentValue.WOLF))
+            decWolf();
+        else if (contentValue.equals(ContentValue.RABBIT))
+            decRabbit();
     }
 
     @Override

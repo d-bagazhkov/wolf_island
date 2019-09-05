@@ -1,5 +1,6 @@
 package cody.wolf.island.controller;
 
+import cody.wolf.island.service.TableService;
 import cody.wolf.island.service.impl.TableServiceImpl;
 import cody.wolf.island.service.GameService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +23,7 @@ public class MoveController {
 
     @CrossOrigin
     @PostMapping("/handle")
-    public TableServiceImpl handleStep() {
+    public TableService handleStep() {
         long start = new Date().getTime();
         try {
             log.debug("Start handle move");
@@ -34,15 +35,15 @@ public class MoveController {
 
     @CrossOrigin
     @GetMapping("/reset")
-    public TableServiceImpl reset() {
+    public TableService reset() {
         return gameService.reset();
     }
 
     @CrossOrigin
     @GetMapping("/socket/handle/{interval}")
-    public Flux<ServerSentEvent<TableServiceImpl>> socket(@PathVariable("interval") Integer interval) {
+    public Flux<ServerSentEvent<TableService>> socket(@PathVariable("interval") Integer interval) {
         return Flux.interval(Duration.ofMillis(interval))
-                .map(sequence -> ServerSentEvent.<TableServiceImpl>builder()
+                .map(sequence -> ServerSentEvent.<TableService>builder()
                         .id(String.valueOf(sequence))
                         .data(handleStep())
                         .build());

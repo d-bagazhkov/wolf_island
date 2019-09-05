@@ -1,5 +1,7 @@
 package cody.wolf.island.service;
 
+import cody.wolf.island.model.things.enums.ContentValue;
+
 import javax.validation.constraints.Positive;
 
 public interface StatsService {
@@ -29,6 +31,9 @@ public interface StatsService {
     void decRabbit();
 
     void decRabbit(@Positive int count);
+
+    void incInstance(ContentValue contentValue);
+    void decInstance(ContentValue contentValue);
 
     void decSteps();
 

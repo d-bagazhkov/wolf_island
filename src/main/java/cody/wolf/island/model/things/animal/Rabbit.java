@@ -7,9 +7,41 @@ import lombok.ToString;
 public class Rabbit implements AnimalThing {
 
     private final ContentValue value = ContentValue.RABBIT;
+    private int energy = 100;
+    private int age = 0;
 
     @Override
     public ContentValue getValue() {
         return value;
+    }
+
+    @Override
+    public int getEnergy() {
+        return energy;
+    }
+
+    @Override
+    public void incEnergy(int amount) {
+        energy += amount;
+    }
+
+    @Override
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public void incAge() {
+        age++;
+    }
+
+    @Override
+    public void decEnergy(int amount) {
+        energy -= amount;
     }
 }
