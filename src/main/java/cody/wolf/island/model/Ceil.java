@@ -1,27 +1,14 @@
 package cody.wolf.island.model;
 
-import cody.wolf.island.model.things.EmptyThing;
 import cody.wolf.island.model.things.Thing;
-import lombok.Data;
+import cody.wolf.island.model.things.enums.ContentValue;
 
-@Data
-public class Ceil {
+public interface Ceil {
 
-    private Thing thing;
-    private Position position;
-    private boolean isDocked;
+    Thing getThing();
+    void setThing(Thing thing);
+    Position getPosition();
+    void setPosition(Position position);
+    boolean hasContent(ContentValue contentValue);
 
-    public Ceil(Position position) {
-        this.thing = new EmptyThing();
-        this.position = position;
-        this.isDocked = false;
-    }
-
-    public void dock() {
-        isDocked = true;
-    }
-
-    public void unDock() {
-        isDocked = false;
-    }
 }

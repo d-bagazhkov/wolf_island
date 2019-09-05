@@ -1,21 +1,21 @@
 package cody.wolf.island.utils;
 
-import cody.wolf.island.model.IslandTable;
+import cody.wolf.island.service.impl.TableServiceImpl;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
 
-public class IslandTableSerialize extends StdSerializer<IslandTable> {
+public class IslandTableSerialize extends StdSerializer<TableServiceImpl> {
 
     protected IslandTableSerialize() {
-        super(IslandTable.class);
+        super(TableServiceImpl.class);
     }
 
 
     @Override
-    public void serialize(IslandTable table, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+    public void serialize(TableServiceImpl table, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartArray();
 
         for (int i = 0; i < table.getHorizontalSize(); i++) {

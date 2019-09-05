@@ -1,5 +1,5 @@
-<html lang="en">
-<head xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -12,24 +12,28 @@
 </head>
 <body>
 <div id="control-root">
-  <section class="range-input">
-    <input type="range" min="0" max="10000" value="0" step="100"/>
-    <label class="info value"></label>
-  </section>
-  <section class="reset-button">
-    <button class="reset" name="Reset">Reset</button>
-    <label class="info alarm"></label>
-  </section>
-  <section class="toggle-switch">
-    <div>
-      <label class="switch">
-        <input type="checkbox">
-        <span class="slider round"></span>
-      </label>
+  <div id="stats-panel">
+  </div>
+  <div id="control-panel">
+    <section class="range-input">
+      <input type="range" min="0" max="10000" value="0" step="100"/>
       <label class="info value"></label>
-    </div>
-    <label class="info alarm"></label>
-  </section>
+    </section>
+    <section class="reset-button">
+      <button class="reset" name="Reset">Reset</button>
+      <label class="info alarm"></label>
+    </section>
+    <section class="toggle-switch">
+      <div>
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider round"></span>
+        </label>
+        <label class="info value"></label>
+      </div>
+      <label class="info alarm"></label>
+    </section>
+  </div>
 </div>
 <div id="table-root" th:data-size-ceil="${sizeCeil}"></div>
 </body>

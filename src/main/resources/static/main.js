@@ -17,33 +17,48 @@ switchToSocket = () => {
 };
 
 switchToPolling = () => {
-  console.log("Смена режима работы программы на Socket")
+  console.log("Смена режима работы программы на Polling")
 };
 
 let intervalId = null;
 let eventSource = null;
+let eventStatsSource = null;
 startQuerying = (value) => {
   console.log("Запросы включенны с частотой", value, "ms");
   if (!toggleCheckbox.checked) {
-    clearInterval(intervalId);
+    if (intervalId !== null) {
+      clearInterval(intervalId);//stop interval request step
+    }
     intervalId = setInterval(request, value);
   } else {
-    if (eventSource) {
+    if (eventSource !== null) {
       eventSource.close();
     }
     eventSource = new EventSource("/socket/handle/" + value);
-    eventSource.onmessage = function(event) {
+    eventSource.onmessage = function (event) {
       rootTable.render(Entity.of(JSON.parse(event.data)))
     };
   }
+
+  if (eventStatsSource !== null) {
+    eventStatsSource.close();
+  }
+  eventStatsSource = new EventSource("/socket/stats/" + value);
+  eventStatsSource.onmessage = function (event) {
+    updateStats(JSON.parse(event.data));
+  };
 };
 
 stopQuerying = () => {
   console.log("Запросы отключенны");
-  if (intervalId !== null)
-    clearInterval(intervalId);
+  if (intervalId !== null) {
+    clearInterval(intervalId); //stop interval request step
+  }
   if (eventSource !== null) {
     eventSource.close();
+  }
+  if (eventStatsSource !== null) {
+    eventStatsSource.close();
   }
 };
 

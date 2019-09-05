@@ -14,14 +14,25 @@ body {
   padding: 10px 100px 100px 100px;
 }
 
-#control-root * {
-  background-color: #9C9C9C;
-}
-
 #control-root {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+}
+
+#stats-panel {
+  margin: 10px 0;
+}
+
+#control-panel * {
+  background-color: #9C9C9C;
+}
+
+#control-panel {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  margin: 10px 0;
   justify-content: space-around;
   height: 280px;
   background-color: #9C9C9C;
@@ -50,40 +61,40 @@ body {
   padding: 8px;
 }
 
-#control-root section {
+#control-panel section {
   display: flex;
   width: 100%;
   padding: 1.5rem;
 }
 
-#control-root section.range-input {
+#control-panel section.range-input {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-#control-root section.range-input input[type=range] {
+#control-panel section.range-input input[type=range] {
   width: 145px;
 }
 
-#control-root section.reset-button {
+#control-panel section.reset-button {
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
 
-#control-root section.reset-button button {
+#control-panel section.reset-button button {
   padding: 10px 23px;
   width: 140px;
   font-size: 1.2rem;
 }
 
-#control-root section.toggle-switch {
+#control-panel section.toggle-switch {
   flex-direction: column;
   padding: 0 16px;
 }
 
-#control-root section.toggle-switch div {
+#control-panel section.toggle-switch div {
   display: flex;
   align-items: center;
   justify-content: space-between;

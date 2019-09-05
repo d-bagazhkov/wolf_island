@@ -2,10 +2,17 @@ island:
   countHorizontalCeil: 10
   countVerticalCeil: 10
   sizeCeil: 50
-  start:
-    count:
-      wolf: 1
-      rabbit: 0
+  characteristic:
+    wolf:
+      count: 2
+      dec-energy: 15
+      born-age: 15
+      inc-energy: 9
+    rabbit:
+      count: 4
+      born-age: 5
+      dec-energy: 10
+#      inc-energy: 0
 
 server:
   port: 8008

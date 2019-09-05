@@ -1,9 +1,11 @@
 package cody.wolf.island.config;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.DoubleSummaryStatistics;
+import java.util.Map;
 
 @Data
 @Configuration
@@ -13,9 +15,21 @@ public class IslandConfig {
     private Integer countVerticalCeil;
     private Integer sizeCeil;
 
-    @Value("${island.start.count.wolf}")
-    private Integer startCountWolf;
+    private Map<String, ThingCharacteristic> characteristic;
 
-    @Value("${island.start.count.rabbit}")
-    private Integer startCountRabbit;
+    public ThingCharacteristic getWolfConfig() {
+        return characteristic.get("wolf");
+    }
+
+    public ThingCharacteristic getRabbitConfig() {
+        return characteristic.get("rabbit");
+    }
+
+    @Data
+    public static class ThingCharacteristic {
+        private int count;
+        private int bornAge;
+        private int decEnergy;
+        private int incEnergy;
+    }
 }
