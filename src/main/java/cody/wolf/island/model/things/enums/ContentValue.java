@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum ContentValue {
-    WOLF("\uD83D\uDC3A"), RABBIT("\uD83D\uDC30"), EMPTY(""), BORDER(null);
+    WOLF("\uD83D\uDC3A"),
+    RABBIT("\uD83D\uDC30"),
+    EMPTY(""),
+    BORDER(null);
 
     private final String content;
 

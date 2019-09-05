@@ -4,8 +4,6 @@ import cody.wolf.island.model.things.enums.ContentValue;
 import cody.wolf.island.service.StatsService;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
-
 @Service
 public class StatsServiceImpl implements StatsService {
 
@@ -105,7 +103,7 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public void clear() {
+    public void clearStats() {
         countSteps = 0;
         countWolf = 0;
         countRabbit = 0;

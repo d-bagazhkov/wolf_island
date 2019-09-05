@@ -1,11 +1,11 @@
 package cody.wolf.island.service.impl;
 
-import cody.wolf.island.model.Ceil;
-import cody.wolf.island.model.CeilImpl;
+import cody.wolf.island.model.Cell;
+import cody.wolf.island.model.CellImpl;
 import cody.wolf.island.model.Position;
 import cody.wolf.island.model.things.EmptyThing;
 import cody.wolf.island.model.things.enums.ContentValue;
-import cody.wolf.island.service.TableService;
+import cody.wolf.island.service.Island;
 import cody.wolf.island.utils.IslandTableSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.ToString;
@@ -20,21 +20,21 @@ import java.util.function.Function;
 @Slf4j
 @ToString(of = {"table"})
 @JsonSerialize(using = IslandTableSerialize.class)
-public class TableServiceImpl implements TableService {
+public class IslandImpl implements Island {
 
     private final int horizontalSize;
     private final int verticalSize;
 
-    private Ceil[][] table;
+    private Cell[][] table;
     private List<Position> blockedPositions = new ArrayList<>();
 
-    public TableServiceImpl(int horizontalSize, int verticalSize) {
+    public IslandImpl(int horizontalSize, int verticalSize) {
         this.horizontalSize = horizontalSize;
         this.verticalSize = verticalSize;
-        table = new CeilImpl[horizontalSize][verticalSize];
+        table = new CellImpl[horizontalSize][verticalSize];
         for (int x = 0; x < horizontalSize; x++) {
             for (int y = 0; y < verticalSize; y++) {
-                table[x][y] = new CeilImpl(new Position(x, y));
+                table[x][y] = new CellImpl(new Position(x, y));
             }
         }
     }
@@ -48,30 +48,30 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public Ceil get(Position position) {
-        return get(position.getX(), position.getY());
+    public Cell getCell(Position position) {
+        return getCell(position.getX(), position.getY());
     }
 
     @Override
-    public Ceil get(int x, int y) {
+    public Cell getCell(int x, int y) {
         return table[x][y];
     }
 
     @Override
-    public boolean move(Ceil from, Position to) {
+    public boolean move(Cell from, Position to) {
         return move(from.getPosition().getX(), from.getPosition().getY(), to.getX(), to.getY());
     }
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
-        Ceil to = get(toX, toY);
+        Cell to = getCell(toX, toY);
         if (!to.hasContent(ContentValue.EMPTY)) {
-            log.debug("Ceil on position x={}, y={} is already taken", toX, toY);
+            log.debug("Cell on position x={}, y={} is already taken", toX, toY);
             return false;
         }
-        Ceil from = get(fromX, fromY);
+        Cell from = getCell(fromX, fromY);
         if (from.hasContent(ContentValue.EMPTY)) {
-            log.debug("Ceil on position x={}, y={} is empty. Nothing move", fromX, fromY);
+            log.debug("Cell on position x={}, y={} is empty. Nothing move", fromX, fromY);
             return false;
         }
         to.setThing(from.getThing());
@@ -82,56 +82,56 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public void replace(Ceil from, Ceil to) {
+    public void replace(Cell from, Cell to) {
         log.debug("Replace from position x={} y={} to x={} y={}", from.getPosition().getX(), from.getPosition().getY(), to.getPosition().getX(), to.getPosition().getY());
         to.setThing(from.getThing());
         from.setThing(new EmptyThing());
     }
 
     @Override
-    public void forEachCeil(Consumer<Ceil> ceilConsumer) {
+    public void forEachCell(Consumer<Cell> cellConsumer) {
         for (int x = 0; x < horizontalSize; x++)
             for (int y = 0; y < verticalSize; y++)
-                ceilConsumer.accept(get(x, y));
+                cellConsumer.accept(getCell(x, y));
     }
 
     @Override
-    public void blockedForEach(Function<Ceil, Position> function) {
+    public void blockedForEach(Function<Cell, Position> function) {
         for (int x = 0; x < horizontalSize; x++) {
             for (int y = 0; y < verticalSize; y++) {
-                Ceil ceil = get(x, y);
+                Cell cell = getCell(x, y);
                 Position position = null;
-                if (!blockedPositions.contains(ceil.getPosition()))
-                    position = function.apply(ceil);
+                if (!blockedPositions.contains(cell.getPosition()))
+                    position = function.apply(cell);
                 if (position != null)
                     blockedPositions.add(position);
             }
         }
-        unblockALl();
+        unblockAll();
     }
 
     @Override
-    public void remove(Ceil ceil) {
-        remove(ceil.getPosition());
+    public void remove(Cell cell) {
+        remove(cell.getPosition());
     }
 
     @Override
     public void remove(Position position) {
-        get(position).setThing(new EmptyThing());
+        getCell(position).setThing(new EmptyThing());
     }
 
     @Override
-    public void block(Ceil ceil) {
-        block(ceil.getPosition());
+    public void blockCell(Cell cell) {
+        blockCell(cell.getPosition());
     }
 
     @Override
-    public void block(Position position) {
+    public void blockCell(Position position) {
         blockedPositions.add(position);
     }
 
     @Override
-    public void unblockALl() {
+    public void unblockAll() {
         blockedPositions.clear();
     }
 }

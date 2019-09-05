@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class WebController {
 
+    private static final String CELL_SIZE = "sizeCell";
     private final IslandConfig islandConfig;
 
     @RequestMapping(value = {"/", "home", "index"})
     public String index(Model model) {
-        model.addAttribute("sizeCeil", islandConfig.getSizeCeil());
+        model.addAttribute(CELL_SIZE, islandConfig.getSizeCell());
         return "index";
     }
 }

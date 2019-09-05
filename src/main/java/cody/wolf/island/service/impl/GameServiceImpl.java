@@ -1,7 +1,7 @@
 package cody.wolf.island.service.impl;
 
 import cody.wolf.island.config.IslandConfig;
-import cody.wolf.island.model.Ceil;
+import cody.wolf.island.model.Cell;
 import cody.wolf.island.model.Position;
 import cody.wolf.island.model.things.Thing;
 import cody.wolf.island.model.things.animal.AnimalThing;
@@ -9,8 +9,8 @@ import cody.wolf.island.model.things.animal.Rabbit;
 import cody.wolf.island.model.things.animal.Wolf;
 import cody.wolf.island.model.things.enums.ContentValue;
 import cody.wolf.island.service.GameService;
+import cody.wolf.island.service.Island;
 import cody.wolf.island.service.StatsService;
-import cody.wolf.island.service.TableService;
 import cody.wolf.island.utils.PositionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,8 +24,7 @@ public class GameServiceImpl implements GameService {
     private final IslandConfig islandConfig;
     private final StatsService statsService;
 
-    private TableService table;
-    private Random random = new Random();
+    private Island island;
 
     public GameServiceImpl(IslandConfig islandConfig, StatsService statsService) {
         this.islandConfig = islandConfig;
@@ -33,36 +32,36 @@ public class GameServiceImpl implements GameService {
         reset();
     }
 
-    public TableService handle() {
-        table.blockedForEach(ceil -> {
-            if (ceil.getThing().isMovable()) {
-                AnimalThing thing = (AnimalThing) ceil.getThing();
+    public Island handle() {
+        island.blockedForEach(cell -> {
+            if (cell.getThing().isMovable()) {
+                AnimalThing thing = (AnimalThing) cell.getThing();
                 thing.incAge();
-                List<Position> shuffleAround = getShuffleAround(ceil.getPosition());
-                if (ceil.hasContent(ContentValue.WOLF)) {
-                    Optional<Ceil> rabbit = shuffleAround.stream()
-                            .map(p -> table.get(p))
+                List<Position> shuffleAround = getShuffleAround(cell.getPosition());
+                if (cell.hasContent(ContentValue.WOLF)) {
+                    Optional<Cell> rabbit = shuffleAround.stream()
+                            .map(p -> island.getCell(p))
                             .filter(c -> c.hasContent(ContentValue.RABBIT))
                             .findFirst();
                     if (rabbit.isPresent()) {
-                        table.replace(ceil, rabbit.get());
+                        island.replace(cell, rabbit.get());
                         thing.incEnergy(islandConfig.getWolfConfig().getIncEnergy());
                         statsService.decRabbit();
                         return rabbit.get().getPosition();
                     }
                 }
                 for (Position position : shuffleAround) {
-                    if (table.get(position).hasContent(ContentValue.WOLF)) continue;
-                    if (table.move(ceil, position))
+                    if (island.getCell(position).hasContent(ContentValue.WOLF)) continue;
+                    if (island.move(cell, position))
                         return position;
                 }
-                death(thing, ceil.getPosition());
+                death(thing, cell.getPosition());
             }
             return null;
         });
         birth();
         statsService.incSteps();
-        return table;
+        return island;
     }
 
     private boolean death(AnimalThing thing, Position position) {
@@ -70,7 +69,7 @@ public class GameServiceImpl implements GameService {
             thing.decEnergy(islandConfig.getWolfConfig().getDecEnergy());
             if (thing.getEnergy() <= 0) {
                 statsService.decWolf();
-                table.remove(position);
+                island.remove(position);
                 return true;
             }
         }
@@ -78,7 +77,7 @@ public class GameServiceImpl implements GameService {
             thing.decEnergy(islandConfig.getRabbitConfig().getDecEnergy());
             if (thing.getEnergy() <= 0) {
                 statsService.decRabbit();
-                table.remove(position);
+                island.remove(position);
                 return true;
             }
         }
@@ -86,15 +85,15 @@ public class GameServiceImpl implements GameService {
     }
 
     private void birth() {
-        table.forEachCeil(ceil -> {
+        island.forEachCell(cell -> {
                     try {
-                        if (ceil.getThing().isMovable()) {
-                            AnimalThing thing = (AnimalThing) ceil.getThing();
-                            if (ceil.hasContent(ContentValue.WOLF) && thing.getAge() > islandConfig.getWolfConfig().getBornAge()
-                                    || ceil.hasContent(ContentValue.RABBIT) && thing.getAge() > islandConfig.getWolfConfig().getBornAge()) {
-                                Position position = getShuffleAround(ceil.getPosition()).get(0);
-                                Ceil childCeil = table.get(position);
-                                childCeil.setThing(thing.getClass().newInstance());
+                        if (cell.getThing().isMovable()) {
+                            AnimalThing thing = (AnimalThing) cell.getThing();
+                            if (cell.hasContent(ContentValue.WOLF) && thing.getAge() > islandConfig.getWolfConfig().getBornAge()
+                                    || cell.hasContent(ContentValue.RABBIT) && thing.getAge() > islandConfig.getWolfConfig().getBornAge()) {
+                                Position position = getShuffleAround(cell.getPosition()).get(0);
+                                Cell childCell = island.getCell(position);
+                                childCell.setThing(thing.getClass().newInstance());
                                 thing.setAge(0);
                                 statsService.incInstance(thing.getValue());
                             }
@@ -107,41 +106,41 @@ public class GameServiceImpl implements GameService {
     }
 
     private List<Position> getShuffleAround(Position position) {
-        List<Position> shuffleResult = PositionUtils.around(position, islandConfig.getCountHorizontalCeil(), islandConfig.getCountVerticalCeil());
+        List<Position> shuffleResult = PositionUtils.around(position, islandConfig.getCountHorizontalCell(), islandConfig.getCountVerticalCell());
         Collections.shuffle(shuffleResult);
         return shuffleResult;
     }
 
 
-    public TableService reset() {
-        log.info("Create new island");
-        statsService.clear();
-        table = new TableServiceImpl(islandConfig.getCountHorizontalCeil(), islandConfig.getCountVerticalCeil());
+    public Island reset() {
+        log.info("New island is being created...");
+        statsService.clearStats();
+        island = new IslandImpl(islandConfig.getCountHorizontalCell(), islandConfig.getCountVerticalCell());
 
-        List<Position> isset = new ArrayList<>();
+        List<Position> positionList = new ArrayList<>();
 
         for (int i = 0; i < islandConfig.getWolfConfig().getCount(); i++) {
-            randomFill(isset, Wolf.class);
+            randomFill(positionList, Wolf.class);
         }
         statsService.incWolf(islandConfig.getWolfConfig().getCount());
         for (int i = 0; i < islandConfig.getRabbitConfig().getCount(); i++) {
-            randomFill(isset, Rabbit.class);
+            randomFill(positionList, Rabbit.class);
         }
         statsService.incRabbit(islandConfig.getRabbitConfig().getCount());
 
-        log.debug("New island: {}", table);
-        return table;
+        log.debug("New island: {}", island);
+        return island;
     }
 
     private void randomFill(List<Position> isset, Class<? extends Thing> thingClass) {
         Random random = new Random();
         while (true) {
-            Position position = new Position(random.nextInt(islandConfig.getCountHorizontalCeil()), random.nextInt(islandConfig.getCountVerticalCeil()));
+            Position position = new Position(random.nextInt(islandConfig.getCountHorizontalCell()), random.nextInt(islandConfig.getCountVerticalCell()));
             if (isset.stream().anyMatch(p -> p.equals(position))) continue;
             isset.add(position);
             try {
                 log.info("Set {} on position x={}, y={}", thingClass.getSimpleName(), position.getX(), position.getY());
-                table.get(position).setThing(thingClass.newInstance());
+                island.getCell(position).setThing(thingClass.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
                 log.error("Can't create new thing instance", e);
                 return;

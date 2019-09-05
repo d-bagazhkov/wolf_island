@@ -111,7 +111,7 @@ body {
   flex-direction: row;
 }
 
-#table-root .row .ceil {
+#table-root .row .cell {
   display: flex;
   align-items: center;
   justify-content: center;

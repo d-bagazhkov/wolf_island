@@ -1,7 +1,7 @@
 island:
-  countHorizontalCeil: 10
-  countVerticalCeil: 10
-  sizeCeil: 50
+  countHorizontalCell: 10
+  countVerticalCell: 10
+  sizeCell: 50
   characteristic:
     wolf:
       count: 2

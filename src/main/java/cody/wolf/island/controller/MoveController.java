@@ -1,9 +1,7 @@
 package cody.wolf.island.controller;
 
-import cody.wolf.island.service.TableService;
-import cody.wolf.island.service.impl.TableServiceImpl;
 import cody.wolf.island.service.GameService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cody.wolf.island.service.Island;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.codec.ServerSentEvent;
@@ -19,11 +17,10 @@ import java.util.Date;
 public class MoveController {
 
     private final GameService gameService;
-    private final ObjectMapper objectMapper;
 
     @CrossOrigin
     @PostMapping("/handle")
-    public TableService handleStep() {
+    public Island handleStep() {
         long start = new Date().getTime();
         try {
             log.debug("Start handle move");
@@ -35,15 +32,15 @@ public class MoveController {
 
     @CrossOrigin
     @GetMapping("/reset")
-    public TableService reset() {
+    public Island reset() {
         return gameService.reset();
     }
 
     @CrossOrigin
     @GetMapping("/socket/handle/{interval}")
-    public Flux<ServerSentEvent<TableService>> socket(@PathVariable("interval") Integer interval) {
+    public Flux<ServerSentEvent<Island>> socket(@PathVariable("interval") Integer interval) {
         return Flux.interval(Duration.ofMillis(interval))
-                .map(sequence -> ServerSentEvent.<TableService>builder()
+                .map(sequence -> ServerSentEvent.<Island>builder()
                         .id(String.valueOf(sequence))
                         .data(handleStep())
                         .build());

@@ -6,12 +6,12 @@ import cody.wolf.island.model.things.enums.ContentValue;
 import lombok.Data;
 
 @Data
-public class CeilImpl implements Ceil {
+public class CellImpl implements Cell {
 
     private Thing thing;
     private Position position;
 
-    public CeilImpl(Position position) {
+    public CellImpl(Position position) {
         this.thing = new EmptyThing();
         this.position = position;
     }

@@ -4,16 +4,15 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.DoubleSummaryStatistics;
 import java.util.Map;
 
 @Data
 @Configuration
 @ConfigurationProperties("island")
 public class IslandConfig {
-    private Integer countHorizontalCeil;
-    private Integer countVerticalCeil;
-    private Integer sizeCeil;
+    private Integer countHorizontalCell;
+    private Integer countVerticalCell;
+    private Integer sizeCell;
 
     private Map<String, ThingCharacteristic> characteristic;
 

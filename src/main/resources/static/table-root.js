@@ -2,7 +2,7 @@
 
 const elementRootTable = document.getElementById("table-root");
 const props = {
-  ceilSize: +elementRootTable.dataset.sizeCeil
+  cellSize: +elementRootTable.dataset.sizeCell
 };
 
 const Entity = function (json) {
@@ -12,27 +12,27 @@ const Entity = function (json) {
 };
 Entity.of = (arrObj) => arrObj.map(e => new Entity({x: e.position.x, y: e.position.y, value: e.thing.value}));
 
-const Ceil = function (entity) {
+const Cell = function (entity) {
   this.element = document.createElement("div");
   this.render = entity => {
     this.element.innerHTML = entity.value;
     this.entity = entity;
   };
   this.element.dataset.index = entity.x;
-  this.element.classList.add("ceil");
-  this.element.style.width = props.ceilSize + 'px';
-  this.element.style.height = props.ceilSize + 'px';
+  this.element.classList.add("cell");
+  this.element.style.width = props.cellSize + 'px';
+  this.element.style.height = props.cellSize + 'px';
 };
 
 const Row = function (entity) {
-  this.listCeil = [];
+  this.listCell = [];
   this.element = document.createElement("div");
   this.element.dataset.index = entity.y;
-  this.element.style.height = props.ceilSize + 'px';
+  this.element.style.height = props.cellSize + 'px';
   this.element.classList.add("row");
-  this.add = ceil => {
-    this.listCeil.push(ceil);
-    this.element.append(ceil.element);
+  this.add = cell => {
+    this.listCell.push(cell);
+    this.element.append(cell.element);
   };
 };
 
@@ -51,12 +51,12 @@ const RootTable = function (element) {
         row = new Row(entity);
         this.add(row);
       }
-      let ceil = row.listCeil[entity.x];
-      if (!ceil) {
-        ceil = new Ceil(entity);
-        row.add(ceil);
+      let cell = row.listCell[entity.x];
+      if (!cell) {
+        cell = new Cell(entity);
+        row.add(cell);
       }
-      ceil.render(entity);
+      cell.render(entity);
     }
   };
 };

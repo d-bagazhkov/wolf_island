@@ -39,6 +39,6 @@ public interface StatsService {
 
     void decSteps(@Positive int count);
 
-    void clear();
+    void clearStats();
 
 }

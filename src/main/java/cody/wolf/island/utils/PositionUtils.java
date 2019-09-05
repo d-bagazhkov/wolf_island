@@ -29,20 +29,16 @@ public class PositionUtils {
     private static Position positionShift(Position position, int shiftX, int shiftY, int maxX, int maxY) {
         Position tmp = new Position(position.getX() + shiftX, position.getY() + shiftY);
 
-        if (validPosition(tmp, maxX, maxY))
-            return tmp;
-
-        return null;
+        return isPossitionValid(tmp, maxX, maxY)
+                ? tmp
+                : null;
     }
 
-    public static boolean validPosition(Position position, int maxX, int maxY) {
+    private static boolean isPossitionValid(Position position, int maxX, int maxY) {
         int x = position.getX();
         int y = position.getY();
 
-        if (x < 0 || y < 0 || x >= maxX || y >= maxY)
-            return false;
-
-        return true;
+        return x >= 0 && y >= 0 && x < maxX && y < maxY;
     }
 
 }

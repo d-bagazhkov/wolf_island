@@ -2,8 +2,8 @@ package cody.wolf.island.service;
 
 public interface GameService {
 
-    TableService handle();
+    Island handle();
 
-    TableService reset();
+    Island reset();
 
 }
