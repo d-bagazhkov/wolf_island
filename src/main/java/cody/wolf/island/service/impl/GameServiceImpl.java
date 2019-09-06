@@ -11,7 +11,6 @@ import cody.wolf.island.model.things.enums.ContentValue;
 import cody.wolf.island.service.GameService;
 import cody.wolf.island.service.Island;
 import cody.wolf.island.service.StatsService;
-import cody.wolf.island.utils.PositionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -106,7 +105,7 @@ public class GameServiceImpl implements GameService {
     }
 
     private List<Position> getShuffleAround(Position position) {
-        List<Position> shuffleResult = PositionUtils.around(position, islandConfig.getCountHorizontalCell(), islandConfig.getCountVerticalCell());
+        List<Position> shuffleResult = island.around(position);
         Collections.shuffle(shuffleResult);
         return shuffleResult;
     }

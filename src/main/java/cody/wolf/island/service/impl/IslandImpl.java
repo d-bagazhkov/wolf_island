@@ -12,7 +12,9 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -133,5 +135,38 @@ public class IslandImpl implements Island {
     @Override
     public void unblockAll() {
         blockedPositions.clear();
+    }
+
+    @Override
+    public List<Position> around(Position position) {
+        Set<Position> result = new HashSet<>();
+
+        result.add(positionShift(position, -1, -1)); //left-top
+        result.add(positionShift(position, 0, -1)); //top
+        result.add(positionShift(position, 1, -1)); //right-top
+        result.add(positionShift(position, 1, 0)); //right
+        result.add(positionShift(position, 1, 1)); //right-bottom
+        result.add(positionShift(position, 0, 1)); //bottom
+        result.add(positionShift(position, -1, 1)); //left-bottom
+        result.add(positionShift(position, -1, 0)); //left
+
+        result.remove(null);
+
+        return new ArrayList<>(result);
+    }
+
+    private Position positionShift(Position position, int shiftX, int shiftY) {
+        Position tmp = new Position(position.getX() + shiftX, position.getY() + shiftY);
+
+        return isPositionValid(tmp)
+                ? tmp
+                : null;
+    }
+
+    private boolean isPositionValid(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+
+        return x >= 0 && y >= 0 && x < horizontalSize && y < verticalSize;
     }
 }
