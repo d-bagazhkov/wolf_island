@@ -15,6 +15,7 @@ import cody.wolf.island.utils.PositionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Slf4j
@@ -93,12 +94,12 @@ public class GameServiceImpl implements GameService {
                                     || cell.hasContent(ContentValue.RABBIT) && thing.getAge() > islandConfig.getWolfConfig().getBornAge()) {
                                 Position position = getShuffleAround(cell.getPosition()).get(0);
                                 Cell childCell = island.getCell(position);
-                                childCell.setThing(thing.getClass().newInstance());
+                                childCell.setThing(thing.getClass().getDeclaredConstructor().newInstance());
                                 thing.setAge(0);
                                 statsService.incInstance(thing.getValue());
                             }
                         }
-                    } catch (InstantiationException | IllegalAccessException e) {
+                    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                         log.error("Unexpected error: ", e);
                     }
                 }
@@ -140,8 +141,8 @@ public class GameServiceImpl implements GameService {
             isset.add(position);
             try {
                 log.info("Set {} on position x={}, y={}", thingClass.getSimpleName(), position.getX(), position.getY());
-                island.getCell(position).setThing(thingClass.newInstance());
-            } catch (InstantiationException | IllegalAccessException e) {
+                island.getCell(position).setThing(thingClass.getDeclaredConstructor().newInstance());
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
                 log.error("Can't create new thing instance", e);
                 return;
             }
