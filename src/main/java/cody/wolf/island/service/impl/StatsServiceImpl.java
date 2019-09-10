@@ -4,6 +4,9 @@ import cody.wolf.island.model.things.enums.ContentValue;
 import cody.wolf.island.service.StatsService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class StatsServiceImpl implements StatsService {
 
@@ -28,7 +31,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public void incWolf() {
-        countWolf++;
+        incWolf(1);
     }
 
     @Override

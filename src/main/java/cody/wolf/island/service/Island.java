@@ -3,6 +3,7 @@ package cody.wolf.island.service;
 import cody.wolf.island.model.Cell;
 import cody.wolf.island.model.Position;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -31,4 +32,6 @@ public interface Island {
     void remove(Cell cell);
 
     void remove(Position position);
+
+    List<Position> around(Position position);
 }

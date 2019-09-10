@@ -1,0 +1,14 @@
+.StatisticPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+.StatisticPanel .statsRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.StatisticPanel .statsRow .statsKey,.statsValue {
+  padding: 10px;
+}

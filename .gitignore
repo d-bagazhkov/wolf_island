@@ -1,6 +1,15 @@
-HELP.md
-target/
 .idea
 *.iws
 *.iml
 *.ipr
+
+**/node_modules/
+**/node/
+**/coverage/
+
+# compiled output
+**/dist/
+**/tmp/
+**/out-tsc/
+**/build
+target/
