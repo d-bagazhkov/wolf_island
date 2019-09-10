@@ -5,13 +5,13 @@ island:
   characteristic:
     wolf:
       count: 2
-      dec-energy: 15
-      born-age: 15
-      inc-energy: 9
+      dec-energy: 20
+      born-age: 20
+      inc-energy: 5
     rabbit:
       count: 4
-      born-age: 5
-      dec-energy: 10
+      born-age: 2
+      dec-energy: 1
 #      inc-energy: 0
 
 server:
@@ -24,6 +24,7 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
+    cache: false
 
 logging:
   level:

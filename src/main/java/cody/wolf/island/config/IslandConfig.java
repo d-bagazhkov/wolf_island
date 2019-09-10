@@ -13,6 +13,7 @@ public class IslandConfig {
     private Integer countHorizontalCell;
     private Integer countVerticalCell;
     private Integer sizeCell;
+    private String pathToIsland;
 
     private Map<String, ThingCharacteristic> characteristic;
 
