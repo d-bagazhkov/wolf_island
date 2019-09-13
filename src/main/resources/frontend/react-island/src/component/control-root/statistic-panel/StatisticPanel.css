@@ -1,6 +1,9 @@
 .StatisticPanel {
-  display: flex;
-  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 8.55rem; /*3 row*/
+  max-height: 8.55rem; /*3 row*/
+  overflow-y: auto;
+  align-items: stretch;
 }
 
 .StatisticPanel .statsRow {
@@ -10,5 +13,5 @@
 }
 
 .StatisticPanel .statsRow .statsKey,.statsValue {
-  padding: 10px;
+  padding: 0.6rem;
 }

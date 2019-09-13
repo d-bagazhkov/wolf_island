@@ -4,27 +4,40 @@ import {ControlRoot, IslandRoot} from "../";
 
 export default class App extends React.Component {
 
-  state = {
-    interval: "Off"
+  defaultConfig = {
+    cellSize: "3rem",
+    countColumns: 10,
+    countRows: 10
   };
 
-  intervalCallback(interval) {
+  state = {
+    interval: 0,
+    config: {...this.defaultConfig}
+  };
+
+  intervalCallback = (interval) => {
+    console.log(interval);
     this.setState({
       interval
-    })
+    });
+  };
+
+  configCallback = (config) => {
+    this.setState({config});
   };
 
   render() {
     return (
         <div className="App">
           <ControlRoot
-              callback={this.intervalCallback.bind(this)}
-              interval={this.state.interval}
+              intervalCallback={this.intervalCallback}
+              configCallback={this.configCallback}
+              defaultConfig={this.defaultConfig}
               statsUrl={"http://localhost:8008/socket/stats/"}
           />
           <IslandRoot
-              cellSize={50}
               interval={this.state.interval}
+              config={this.state.config}
               islandUrl={"http://localhost:8008/socket/handle/"}
           />
         </div>
