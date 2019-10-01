@@ -6,17 +6,16 @@ export default class ToggleSwitch extends React.Component {
   constructor(props) {
     super(props);
     let {offValue} = this.props;
-    this.switchInstance = null;
     this.state = {value: offValue, toggleChecked: false}
   }
 
 
   render() {
-    if (this.switchInstance) {
+    if (this.refs.switch) {
       if (this.state.toggleChecked)
-        this.switchInstance.classList.add("checked");
+        this.refs.switch.classList.add("checked");
       else
-        this.switchInstance.classList.remove("checked");
+        this.refs.switch.classList.remove("checked");
     }
     return (
         <div className="ToggleSwitch">
@@ -24,7 +23,7 @@ export default class ToggleSwitch extends React.Component {
               className="switch-label"
               onClick={this.toggleOnChange}
           >
-            <span className="switch-button" ref={instance => this.switchInstance = instance}/>
+            <span className="switch-button" ref="switch"/>
           </label>
           <label className="info">{this.state.value}</label>
         </div>

@@ -17,7 +17,6 @@ const INIT_STORE = {
 
 const rootReducer = (store = INIT_STORE, action) => {
     let nextConfig;
-    console.log(store, action);
     switch (action.type) {
         case ActionTypes.UPDATE_ISLAND:
             let table = {};

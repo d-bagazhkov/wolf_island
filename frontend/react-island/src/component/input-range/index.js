@@ -16,23 +16,23 @@ export default class InputRange extends React.Component {
               className="range"
               type="range"
               min="0" max="10000"
-              onChange={this.rangeOnChange.bind(this)}
-              onInput={this.rangeOnInput.bind(this)}
+              onChange={this.rangeOnChange}
+              onInput={this.rangeOnInput}
               step="100"
           />
         </div>
     );
   }
 
-  rangeOnChange({target}) {
+  rangeOnChange = ({target}) => {
     let {value} = target;
     this.props.onChange && this.props.onChange(+value);
-  }
+  };
 
-  rangeOnInput({target}) {
+  rangeOnInput = ({target}) => {
     let {value} = target;
     let labelValue = +value ? +value / 1000 + ' second' : "Off";
     this.setState({labelValue, value});
-  }
+  };
 
 }
