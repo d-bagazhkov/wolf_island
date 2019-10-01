@@ -1,0 +1,21 @@
+.StatsPanel {
+    justify-content: flex-start;
+    min-height: 8.55rem; /*3 row*/
+    max-height: 8.55rem; /*3 row*/
+    overflow-y: auto;
+    align-items: stretch;
+}
+
+.StatsPanel .statisticList {
+    list-style-image: none;
+}
+
+.StatsPanel .item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.StatsPanel .item .key,.value {
+    padding: 0.6rem;
+}

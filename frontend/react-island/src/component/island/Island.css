@@ -1,0 +1,20 @@
+div.Island {
+    display: flex;
+    flex-direction: column;
+}
+
+div.Island div.row {
+    display: flex;
+    flex-direction: row;
+}
+
+div.Island div.row div.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    font-size: 1.5rem;
+    background-color: #9C9C9C;
+    color: black;
+    overflow: hidden;
+}

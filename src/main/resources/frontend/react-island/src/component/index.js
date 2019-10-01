@@ -1,9 +1,0 @@
-export {default as App} from './App/App.js';
-export {default as InputRange} from './input-range/InputRange.js';
-export {default as Button} from './button/Button.js';
-export {default as ConfigPanel} from './config-panel/ConfigPanel.js';
-export {default as ControlPanel} from './control-panel/ControlPanel.js';
-export {default as ControlRoot} from './control-root/ControlRoot.js';
-export {default as IslandRoot} from './island-root/IslandRoot.js';
-export {default as StatisticPanel} from './statistic-panel/StatisticPanel.js'
-export {default as ToggleSwitch} from './toggle-switch/ToggleSwitch.js'

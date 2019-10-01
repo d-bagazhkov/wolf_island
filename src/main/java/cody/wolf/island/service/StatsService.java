@@ -3,6 +3,7 @@ package cody.wolf.island.service;
 import cody.wolf.island.model.things.enums.ContentValue;
 
 import javax.validation.constraints.Positive;
+import java.util.Map;
 
 public interface StatsService {
 
@@ -40,5 +41,7 @@ public interface StatsService {
     void decSteps(@Positive int count);
 
     void clearStats();
+
+    Map<String, String> getStats();
 
 }

@@ -111,4 +111,9 @@ public class StatsServiceImpl implements StatsService {
         countWolf = 0;
         countRabbit = 0;
     }
+
+    @Override
+    public Map<String, String> getStats() {
+        return null;
+    }
 }

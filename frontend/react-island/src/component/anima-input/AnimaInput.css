@@ -1,0 +1,17 @@
+.AnimaInput {
+  position: relative;
+  text-align: center;
+}
+
+.AnimaInput input {
+  text-align: center;
+}
+
+.AnimaInput label {
+  width: 100%;
+  position: absolute;
+  transition: .2s;
+  z-index: 999;
+  -moz-user-select: none;
+  user-select: none;
+}
