@@ -1,0 +1,16 @@
+.ConfigPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ConfigPanel > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: .8rem 0;
+}
+
+.ConfigPanel {
+    width: auto;
+}

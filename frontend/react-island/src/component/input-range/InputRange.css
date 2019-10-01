@@ -1,0 +1,90 @@
+.InputRange .range {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: .8rem 0;
+}
+.InputRange .range:focus {
+  outline: none;
+}
+.InputRange .range::-webkit-slider-runnable-track {
+  width: 100%;
+  height: .5rem;
+  cursor: pointer;
+  box-shadow: .05rem .05rem .05rem #000000, 0 0 .05rem #0d0d0d;
+  background: #3071a9;
+  border-radius: .1rem;
+  border: 0.05rem solid #010101;
+}
+.InputRange .range::-webkit-slider-thumb {
+  box-shadow: .05rem .05rem .05rem #000000, 0 0 .05rem #0d0d0d;
+  border: .05rem solid #000000;
+  height: 1.8rem;
+  width: .8rem;
+  border-radius: .2rem;
+  background: #9cffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -.9rem;
+}
+.InputRange .range:focus::-webkit-slider-runnable-track {
+  background: #367ebd;
+}
+.InputRange .range::-moz-range-track {
+  width: 100%;
+  height: .3rem;
+  cursor: pointer;
+  box-shadow: .05rem .05rem .05rem #000000, 0 0 .05rem #0d0d0d;
+  background: #3071a9;
+  border-radius: .1rem;
+  border: .05rem solid #010101;
+}
+.InputRange .range::-moz-range-thumb {
+  box-shadow: .05rem .05rem .05rem #000000, 0 0 .05rem #0d0d0d;
+  border: .05rem solid #000000;
+  height: 1.8rem;
+  width: 0.4rem;
+  border-radius: 0.2rem;
+  background: #9cffff;
+  cursor: pointer;
+}
+.InputRange .range::-ms-track {
+  width: 100%;
+  height: 0.3rem;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+.InputRange .range::-ms-fill-lower {
+  background: #2a6495;
+  border: .05rem solid #010101;
+  border-radius: .15rem;
+  box-shadow: .05rem .05rem .05rem #000000, 0 0 .05rem #0d0d0d;
+}
+.InputRange .range::-ms-fill-upper {
+  background: #3071a9;
+  border: .05rem solid #010101;
+  border-radius: .15rem;
+  box-shadow: .05rem .05rem .05rem #000000, 0 0 .05rem #0d0d0d;
+}
+.InputRange .range::-ms-thumb {
+  box-shadow: .05rem .05rem .05rem #000000, 0 0 .05rem #0d0d0d;
+  border: .05rem solid #000000;
+  height: 1.8rem;
+  width: .8rem;
+  border-radius: .2rem;
+  background: #9cffff;
+  cursor: pointer;
+}
+.InputRange .range:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+.InputRange .range:focus::-ms-fill-upper {
+  background: #367ebd;
+}
+.InputRange {
+  text-align: center;
+}
+.InputRange label {
+  font-size: 1.4rem;
+}

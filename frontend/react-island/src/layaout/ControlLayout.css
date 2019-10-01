@@ -1,0 +1,19 @@
+.ControlLayout {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: space-between;
+    align-items: stretch;
+    width: 20rem;
+    height: 100%;
+}
+
+.ControlLayout > div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: .8rem;
+    border: 1px solid black;
+    margin: .8rem 1rem;
+    padding: .4rem .8rem;
+}
