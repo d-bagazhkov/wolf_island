@@ -3,33 +3,41 @@ import * as Actions from '../../action'
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-
-let TMP_ISLAND = [
-    {column: 0, row: 0, content: "W"},
-    {column: 1, row: 0, content: ""},
-    {column: 2, row: 0, content: ""},
-    {column: 0, row: 1, content: "R"},
-    {column: 1, row: 1, content: ""},
-    {column: 2, row: 1, content: ""},
-    {column: 0, row: 2, content: ""},
-    {column: 1, row: 2, content: "W"},
-    {column: 2, row: 2, content: ""}
-];
 let i = 0;
+let interval = [];
 const Requester = (props) => {
-    props.updateIsland(TMP_ISLAND);//todo remove dumb update island
-    setInterval(() => {
+    console.log(props);
+    interval.forEach(i => clearInterval(i));
+    if (props.interval)
+        interval.push(
+            setInterval(() => fetch(
+                "http://localhost:8008/handle",
+                {
+                    method: 'POST',
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    })
+                })
+                .then(response => response.json())
+                .then(j => props.updateIsland(j.map(e => ({
+                    row: e.position.x,
+                    column: e.position.y,
+                    content: e.thing.value
+                })))), props.interval));
+    interval.push(setInterval(() => {
         props.updateStats({
             "Count wolf": 2,
             "Count rabbit": 1,
             "Summary count steps": ++i
         })
-    }, 1000);//todo remove dumb update stats
+    }, 1000));//todo remove dumb update stats
 
     return <div style={{display: 'none'}}/>
 };
 
-const mapStateToProps = state => ({globalState: state});
+const mapStateToProps = state => ({
+    interval: state.config.interval
+});
 const mapDispatchToProps = dispatch => bindActionCreators(
     {
         updateStats: Actions.updateStats,
@@ -42,4 +50,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
         updateConfigInterval: Actions.updateConfigInterval,
     },
     dispatch);
-export default connect(null, mapDispatchToProps)(Requester);
+export default connect(mapStateToProps, mapDispatchToProps)(Requester);

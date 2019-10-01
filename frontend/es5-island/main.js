@@ -68,16 +68,5 @@ resetApp = () => {
       .then(response => response.json())
       .then(response => rootTable.render(Entity.of(response)))
 };
-let TMP_ISLAND = [
-  {x: 0, y: 0, value: "W"},
-  {x: 1, y: 0, value: " "},
-  {x: 2, y: 0, value: " "},
-  {x: 0, y: 1, value: "R"},
-  {x: 1, y: 1, value: " "},
-  {x: 2, y: 1, value: " "},
-  {x: 0, y: 2, value: " "},
-  {x: 1, y: 2, value: "W"},
-  {x: 2, y: 2, value: " "},
-];
+
 resetApp();
-// rootTable.render(TMP_ISLAND)
