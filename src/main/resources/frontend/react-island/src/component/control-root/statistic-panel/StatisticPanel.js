@@ -1,5 +1,6 @@
 import React from 'react';
 import "./StatisticPanel.css";
+import {NoData} from "../../";
 
 export default class StatisticPanel extends React.Component {
 
@@ -8,6 +9,7 @@ export default class StatisticPanel extends React.Component {
     return (
         <div className="StatisticPanel">
           {
+            values ?
             Object.entries(values).map((kv, index) => {
               let [key, value] = kv;
               return (
@@ -16,6 +18,7 @@ export default class StatisticPanel extends React.Component {
                   <div className={"statsValue"}>{value}</div>
                 </div>
             )})
+                : <NoData />
           }
         </div>
     );
