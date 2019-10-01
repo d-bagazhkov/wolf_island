@@ -16,13 +16,6 @@ const Island = ({table, size}) => (
     </div>
 );
 
-const cellComparator = (a, b) => {
-    let compareRow = a.row - b.row;
-    if (compareRow === 0)
-        return a.column - b.column;
-    return compareRow;
-};
-
 const mapStateToProps = state => ({
     table: state.island,
     size: state.config.cellSize

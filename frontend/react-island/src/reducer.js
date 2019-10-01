@@ -1,19 +1,23 @@
 import * as ActionTypes from './constant';
 
+const INIT_CONFIG = {
+    interval: 0,
+    typeRequest: false,
+    cellSize: "3rem",
+    countRow: 10,
+    countColumn: 10
+};
+
 const INIT_STORE = {
     island: {},
-    config: {
-        interval: 0,
-        typeRequest: false,
-        cellSize: "3rem",
-        countRow: 10,
-        countColumn: 10
-    },
+    floatConfig: INIT_CONFIG,
+    config: INIT_CONFIG,
     stats: {}
 };
 
 const rootReducer = (store = INIT_STORE, action) => {
     let nextConfig;
+    console.log(store, action);
     switch (action.type) {
         case ActionTypes.UPDATE_ISLAND:
             let table = {};
@@ -29,22 +33,22 @@ const rootReducer = (store = INIT_STORE, action) => {
         case ActionTypes.UPDATE_STATS:
             return {...store, stats: action.value};
         case ActionTypes.UPDATE_CONFIG:
-            return {...store, config: action.value};
+            return {...store, config: store.floatConfig};
         case ActionTypes.UPDATE_CONFIG_RANGE_INTERVAL:
-            nextConfig = {...store.config, interval: action.value};
-            return {...store, config: nextConfig};
+            nextConfig = {...store.floatConfig, interval: action.value};
+            return {...store, floatConfig: nextConfig};
         case ActionTypes.UPDATE_CONFIG_TYPE_REQUEST:
-            nextConfig = {...store.config, typeRequest: action.value};
-            return {...store, config: nextConfig};
+            nextConfig = {...store.floatConfig, typeRequest: action.value};
+            return {...store, floatConfig: nextConfig};
         case ActionTypes.UPDATE_CONFIG_CELL_SIZE:
-            nextConfig = {...store.config, cellSize: action.value};
-            return {...store, config: nextConfig};
+            nextConfig = {...store.floatConfig, cellSize: action.value};
+            return {...store, floatConfig: nextConfig};
         case ActionTypes.UPDATE_CONFIG_COUNT_ROW:
-            nextConfig = {...store.config, countRow: action.value};
-            return {...store, config: nextConfig};
+            nextConfig = {...store.floatConfig, countRow: action.value};
+            return {...store, floatConfig: nextConfig};
         case ActionTypes.UPDATE_CONFIG_COUNT_COLUMN:
-            nextConfig = {...store.config, countColumn: action.value};
-            return {...store, config: nextConfig};
+            nextConfig = {...store.floatConfig, countColumn: action.value};
+            return {...store, floatConfig: nextConfig};
         default:
             console.log("Call default reducer case");
             return store;

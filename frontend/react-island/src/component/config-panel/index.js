@@ -17,17 +17,17 @@ const ConfigPanel = (props) => {
             <AnimaInput value={props.config.countRow} update={props.updateConfigCountRow} label="Count rows"/>
             <AnimaInput value={props.config.countColumn} update={props.updateConfigCountColumn} label="Count columns"/>
             <AnimaButton value={"Reset"}/>
-            <AnimaButton value={"Update"}/>
+            <AnimaButton onClick={props.updateConfig} value={"Update"}/>
         </div>
     );
 };
 
 const mapStateToProps = (state) => ({
-    config: state.config
+    config: state.floatConfig
 });
 
 const mapDispatchToProps = dispatch => (bindActionCreators({
-    // updateConfig: Actions.updateConfig,
+    updateConfig: Actions.updateConfig,
     updateConfigInterval: Actions.updateConfigInterval,
     updateConfigCellSize: Actions.updateConfigCellSize,
     updateConfigCountRow: Actions.updateConfigCountRow,
